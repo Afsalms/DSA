@@ -1,0 +1,53 @@
+1. Direct Recursion
+2. Indirect Recursion
+3. Tail Recursion
+4. Non-tail Recursion
+
+
+Direction Recursion:
+
+Function called direct in the function
+
+fun(){
+	#code
+	fun()
+	#code
+}
+
+
+Indirect Recursion:
+
+Function is called indirectly ie function inside another function
+
+fun(){
+	#code
+	fun2()
+	#code
+}
+
+
+fun2(){
+	#code
+	fun()
+	#code
+}
+
+Tail Recursion:
+
+Recursive call is the last thing done by the function, no need of stack to keep record of previos state
+
+fun(){
+	#code
+	fun()
+
+} 
+
+
+Non tail recursive:
+
+Just oppite of tail recuresion
+
+fun(){
+	fun()
+	#code
+}
