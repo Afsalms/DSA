@@ -1,9 +1,7 @@
 
 
-class Stack:
-    """
-    Stack implementation using list
-    """
+class Queue:
+
     def __init__(self, size):
         self.size = size
         self.array = []
@@ -17,37 +15,43 @@ class Stack:
     def __len__(self):
         return len(self.array)
 
+
     def push(self, value):
         if len(self.array) == self.size:
-            print("Stack is already full")
+            print("Queue is already full")
         else:
-            self.array.insert(0, value)
+            self.array.append(value)
+
 
     def pop(self):
         if len(self.array) == 0:
-            print("Stack is already empty")
+            print("Queue is empty")
         else:
             return self.array.pop(0)
 
+
     def peek(self):
         if len(self.array) == 0:
-            print("Stack is already empty")
-        return self.array[0]
+            print("Queue is empty")
+        else:
+            return self.array[0]
 
 
-stack = Stack(2)
 
-print(stack)
+queue = Queue(2)
 
-stack.pop()
+print(queue)
 
-stack.push(10)
-stack.push(20)
-stack.push(30)
-print(stack)
+queue.pop()
+
+queue.push(10)
+queue.push(20)
+queue.push(30)
+print(queue)
 
 
-print(stack.pop())
-print(stack)
+print(queue.pop())
+print(queue)
 
-print(stack.peek())
+print(queue.peek())
+
