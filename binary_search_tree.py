@@ -66,6 +66,20 @@ class BinarySearchTree:
             self._postorder(root.left_child)
             self._postorder(root.right_child)
             print(root, end=" ")
+
+    def search(self, key):
+        self._search(self.root, key)
+
+    def _search(self, root, key):
+        if root:
+            if root.value == key:
+                print("value found")
+            elif root.value < key:
+                self._search(root.right_child, key)
+            else:
+                self._search(root.left_child, key)
+        else:
+            print("Value not found")
         
 
 
@@ -104,6 +118,15 @@ bst.insert("C")
 bst.preorder()
 bst.inorder()
 bst.postorder()
+
+
+
+bst.search("A")
+
+bst.search("J")
+
+bst.search("Q")
+bst.search("Z")
 
 
 
