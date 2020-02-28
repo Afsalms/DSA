@@ -80,54 +80,38 @@ class BinarySearchTree:
                 self._search(root.left_child, key)
         else:
             print("Value not found")
-        
+
+    def level_order(self):
+        self._level_order(self.root)
+        print("\n")
+
+    def _level_order(self, root_node):
+        nodes_to_process = []
+        nodes_to_process.append(root_node)
+        while nodes_to_process:
+            current_node = nodes_to_process.pop(0)
+            print(current_node, end=" ")
+            if current_node.left_child:
+                nodes_to_process.append(current_node.left_child)
+            if current_node.right_child:
+                nodes_to_process.append(current_node.right_child)
 
 
 
 bst = BinarySearchTree()
-a = Node("F")
-bst.insert(a)
+bst.insert(100)
+bst.insert(20)
+bst.insert(10)
+bst.insert(30)
+bst.insert(200)
+bst.insert(150)
+bst.insert(300)
 
-a = Node("D")
-bst.insert(a)
-
-a = Node("J")
-bst.insert(a)
-
-bst.insert("B")
-
-a = Node("E")
-bst.insert(a)
-
-
-bst.insert("G")
-
-bst.insert("K")
-
-a = Node("I")
-bst.insert(a)
-
-a = Node("A")
-bst.insert(a)
-
-a = Node("B")
-bst.insert(a)
-
-bst.insert("C")
 
 bst.preorder()
 bst.inorder()
 bst.postorder()
-
-
-
-bst.search("A")
-
-bst.search("J")
-
-bst.search("Q")
-bst.search("Z")
-
+bst.level_order()
 
 
 
