@@ -1,7 +1,7 @@
 
 
 class Node:
-    
+
     def __init__(self, value):
         self.left_child = None
         self.right_child = None
@@ -70,16 +70,16 @@ class BinarySearchTree:
     def search(self, key):
         return self._search(self.root, key)
 
-    def _search(self, root, key, parent_node=None):
+    def _search(self, root, key, parent_node=None, position="root"):
         if root:
             if root.value == key:
-                return root, parent_node
+                return root, parent_node, position
             elif root.value < key:
-                return self._search(root.right_child, key, root)
+                return self._search(root.right_child, key, root, "right")
             else:
-                return self._search(root.left_child, key, root)
+                return self._search(root.left_child, key, root, "left")
         else:
-            return -1, -1
+            return -1, -1, None
 
     def level_order(self):
         self._level_order(self.root)
@@ -108,39 +108,46 @@ class BinarySearchTree:
     def delete(self, value):
         return self._delete(self.root, value)
 
-    def _delete(self, root, value):
-        import time
-        time.sleep(0.01)
-        node_to_delete, parent_node = self.search(value)
-        print(node_to_delete, parent_node)
-        print("++++++++++++++")
+    def get_delete_case(self, node_to_delete):
+        if(not node_to_delete.left_child and not node_to_delete.right_child):
+            print("\nNode to delete is LEAF node\n")
+            return "CASE1"
+        elif(node_to_delete.left_child and not node_to_delete.right_child):
+            print("\nNode to delete has left child\n")
+            return "CASE2"
+        elif (not node_to_delete.left_child and node_to_delete.right_child):
+            print("\nNode to delete has right child\n")
+            return "CASE3"
+        else:
+            print("\nNode has both right and left child\n")
+            return "CASE4"
+
+    def _delete(self, delete_subtree_root, value, delete_parent_node=None):
+        node_to_delete, parent_node, position = self._search(delete_subtree_root, value)
         if node_to_delete == -1:
             print("Node to delete not found in this tree")
+            return delete_subtree_root
         else:
-            print("Node to delete is :", node_to_delete)
-            if (not node_to_delete.left_child and not node_to_delete.right_child):
-                if not parent_node:
-                    self.root = None
-                    del(node_to_delete)
+            case  = self.get_delete_case(node_to_delete)
+            if not parent_node:
+                parent_node = delete_parent_node
+            if case == "CASE1":
+                if position == "left":
+                    parent_node.left_child = None
                 else:
-                    if parent_node.left_child == node_to_delete:
-                        parent_node.left_child = None
-                    else:
-                        parent_node.right_child = None
-                    del(node_to_delete)
-            elif (not node_to_delete.left_child and node_to_delete.right_child):
-                parent_node.right_child = node_to_delete.right_child
-                del(node_to_delete)
-            elif (node_to_delete.left_child and not node_to_delete.right_child):
+                    parent_node.right_child = None
+                return delete_subtree_root
+            elif case == "CASE2":
                 parent_node.left_child = node_to_delete.left_child
-                del(node_to_delete)
+                return delete_subtree_root
+            elif case == "CASE3":
+                parent_node.right_child = node_to_delete.right_child
+                return delete_subtree_root
             else:
-                print("case4 has both left and right subtree")
-                min_node_right_tree = bst._min_value(node_to_delete.right_child)
-                print(min_node_right_tree)
-                print("++++++++++++++++++++++++")
-                #node_to_delete.value = min_node_right_tree.value
-                #self._delete(min_node_right_tree, min_node_right_tree.value)
+                actual_node_to_delete = self._min_value(node_to_delete.right_child)
+                node_to_delete.value = actual_node_to_delete.value
+                deleted_sub_tree = self._delete(node_to_delete.right_child, 
+                    node_to_delete.value, node_to_delete)
 
 
 bst = BinarySearchTree()
@@ -155,35 +162,9 @@ bst.insert(300)
 bst.insert(301)
 
 
-bst.preorder()
-bst.inorder()
-bst.postorder()
-bst.level_order()
-
-
-min_node = bst.min_value()
-
-print("min_node: ", min_node)
-
-
-#bst.delete(30)
-#bst.preorder()
-#bst.inorder()
-#a, b = bst.search(200)
-#print(a.right_child)
-#print(a.left_child)
-#print("+++++++++++++++")
-
-bst.delete(20)
-
-#bst.delete(150)
-#bst.delete(300)
-
-bst.preorder()
 bst.inorder()
 
 
-#a, b  = bst.search(200)
-#print(a.right_child)
-#print(a.left_child)
-#print("++++++++++++++++++++++++++++++++++++++++")
+deleted_tree = bst.delete(100)
+
+bst.inorder()
